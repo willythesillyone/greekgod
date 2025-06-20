@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Shape Workout & Nutrition Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; 
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-width: 500px;
+            }
+        }
+        .stat-card {
+            background-color: #2d3748;
+            border-left: 5px solid #00B2CA;
+        }
+        .flow-arrow {
+            color: #00B2CA;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .workout-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .workout-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 178, 202, 0.3), 0 4px 6px -2px rgba(0, 178, 202, 0.15);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider">The <span style="color: #00B2CA;">V-Shape</span> Blueprint</h1>
+            <p class="text-lg md:text-xl text-gray-400 mt-2 max-w-3xl mx-auto">Your personalized dumbbell-only workout and nutrition guide to building a powerful, aesthetic physique.</p>
+        </header>
+
+        <section id="user-profile" class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg stat-card">
+                    <h3 class="text-lg font-semibold text-gray-400 uppercase">Age</h3>
+                    <p class="text-5xl font-extrabold text-white">20</p>
+                    <p class="text-gray-500">Years</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg stat-card">
+                    <h3 class="text-lg font-semibold text-gray-400 uppercase">Height</h3>
+                    <p class="text-5xl font-extrabold text-white">172</p>
+                    <p class="text-gray-500">cm</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg stat-card">
+                    <h3 class="text-lg font-semibold text-gray-400 uppercase">Weight</h3>
+                    <p class="text-5xl font-extrabold text-white">68</p>
+                    <p class="text-gray-500">kg</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="nutrition" class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-white">Fueling The Machine</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-2">Nutrition is not an afterthought; it's the foundation of growth. Here are your personalized daily targets for building lean muscle.</p>
+            </div>
+            <div class="bg-gray-800 p-6 md:p-8 rounded-2xl shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <h3 class="text-2xl font-bold text-white mb-6">Daily Caloric & Macronutrient Needs</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                             <div class="text-center bg-gray-900 p-4 rounded-lg">
+                                <p class="text-sm text-gray-400">Maintenance (TDEE)</p>
+                                <p class="text-3xl font-bold" style="color: #F2BE22;">2,573</p>
+                                <p class="text-xs text-gray-500">kcal/day</p>
+                            </div>
+                            <div class="text-center bg-gray-900 p-4 rounded-lg border-2" style="border-color: #00B2CA;">
+                                <p class="text-sm text-gray-400">Muscle Gain Target</p>
+                                <p class="text-3xl font-bold" style="color: #00B2CA;">2,873</p>
+                                <p class="text-xs text-gray-500">kcal/day (+300 surplus)</p>
+                            </div>
+                           <div class="text-center bg-gray-900 p-4 rounded-lg">
+                                <p class="text-sm text-gray-400">Base Metabolism (BMR)</p>
+                                <p class="text-3xl font-bold" style="color: #F2BE22;">1,660</p>
+                                <p class="text-xs text-gray-500">kcal/day</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">To build muscle, a consistent caloric surplus is non-negotiable. This provides the energy your body needs to repair and build new tissue after intense training. Monitor your progress every 2-3 weeks and adjust if needed.</p>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="macroNutrientChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-400 mt-2">Caloric Distribution</p>
+                    </div>
+                </div>
+                 <div class="mt-8">
+                     <h3 class="text-xl font-bold text-white mb-4 text-center">Macronutrient Targets (Grams)</h3>
+                     <div class="chart-container" style="height: 280px; max-width: 800px;">
+                        <canvas id="macroGramsChart"></canvas>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="training-split" class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-white">The Training Strategy</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-2">A Push/Pull/Legs (PPL) split is efficient and effective. To maximize growth, each muscle group should be trained at least twice a week.</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-gray-800 rounded-lg shadow-lg">
+                    <thead>
+                        <tr class="bg-gray-900">
+                            <th class="p-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Split Type</th>
+                            <th class="p-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Frequency</th>
+                            <th class="p-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Suitability</th>
+                            <th class="p-4 text-left text-sm font-semibold text-white uppercase tracking-wider hidden md:table-cell">Example Schedule</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        <tr>
+                            <td class="p-4 font-medium">3-Day PPL</td>
+                            <td class="p-4 text-gray-400">1x/week per muscle</td>
+                            <td class="p-4"><span class="px-3 py-1 text-xs font-semibold rounded-full" style="background-color: #F2541B; color: #FFF;">Suboptimal (Maintenance)</span></td>
+                            <td class="p-4 text-gray-400 hidden md:table-cell">Mon: Push, Wed: Pull, Fri: Legs</td>
+                        </tr>
+                        <tr class="bg-gray-800 ring-2" style="ring-color: #00B2CA;">
+                            <td class="p-4 font-medium">4-Day PPL (Alternating)</td>
+                            <td class="p-4 text-gray-400">~1.5-2x/week per muscle</td>
+                            <td class="p-4"><span class="px-3 py-1 text-xs font-semibold rounded-full" style="background-color: #00A7B5; color: #FFF;">Recommended for Growth</span></td>
+                            <td class="p-4 text-gray-400 hidden md:table-cell">W1: P,P,L,P | W2: P,L,P,P</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">5-Day PPL (Rotating)</td>
+                            <td class="p-4 text-gray-400">~1.4x/week (every 5 days)</td>
+                            <td class="p-4"><span class="px-3 py-1 text-xs font-semibold rounded-full" style="background-color: #F2BE22; color: #1a202c;">Excellent (High Flexibility Needed)</span></td>
+                            <td class="p-4 text-gray-400 hidden md:table-cell">P, P, L, Rest, P, P, Rest...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section id="workout-routine" class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-white">The V-Shape Workout Arsenal</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-2">This dumbbell-only routine focuses on the key muscles for a V-Taper: wide shoulders and a broad back.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg workout-card">
+                    <h3 class="text-2xl font-bold mb-4" style="color: #00B2CA;">PUSH DAY</h3>
+                    <p class="text-sm text-gray-400 mb-6">Focus: Chest, Shoulders, Triceps</p>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex justify-between items-center"><span>Dumbbell Bench Press</span><span class="font-semibold text-white">3x 10-12</span></li>
+                        <li class="flex justify-between items-center"><span>Overhead DB Press</span><span class="font-semibold text-white">3x 12-15</span></li>
+                        <li class="flex justify-between items-center"><span>Dumbbell Flyes</span><span class="font-semibold text-white">3x 10-12</span></li>
+                        <li class="flex justify-between items-center font-bold" style="color: #F2BE22;"><span>DB Lateral Raises</span><span class="text-white">3x 15-20</span></li>
+                        <li class="flex justify-between items-center"><span>Dumbbell Front Raises</span><span class="font-semibold text-white">3x 12-15</span></li>
+                        <li class="flex justify-between items-center"><span>Tricep Overhead Ext.</span><span class="font-semibold text-white">3x 12-15</span></li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg workout-card">
+                    <h3 class="text-2xl font-bold mb-4" style="color: #00B2CA;">PULL DAY</h3>
+                    <p class="text-sm text-gray-400 mb-6">Focus: Lats, Back, Biceps</p>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex justify-between items-center font-bold" style="color: #F2BE22;"><span>Bent Over DB Row</span><span class="text-white">3-4x 8-12</span></li>
+                        <li class="flex justify-between items-center font-bold" style="color: #F2BE22;"><span>Dumbbell Pullover</span><span class="text-white">3x 10-12</span></li>
+                        <li class="flex justify-between items-center"><span>Reverse Flyes</span><span class="font-semibold text-white">3x 10-15</span></li>
+                        <li class="flex justify-between items-center"><span>Hammer Curls</span><span class="font-semibold text-white">3x 10-15</span></li>
+                        <li class="flex justify-between items-center"><span>Flip Grip Curls</span><span class="font-semibold text-white">3x 10-12</span></li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg workout-card">
+                    <h3 class="text-2xl font-bold mb-4" style="color: #00B2CA;">LEG DAY</h3>
+                    <p class="text-sm text-gray-400 mb-6">Focus: Quads, Hamstrings, Glutes</p>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex justify-between items-center"><span>Dumbbell Goblet Squat</span><span class="font-semibold text-white">4x 10-12</span></li>
+                        <li class="flex justify-between items-center"><span>Dumbbell RDLs</span><span class="font-semibold text-white">4x 8-10</span></li>
+                        <li class="flex justify-between items-center"><span>Dumbbell Lunges</span><span class="font-semibold text-white">3x 10-12</span></li>
+                        <li class="flex justify-between items-center"><span>Bulgarian Split Squat</span><span class="font-semibold text-white">3x 8-12</span></li>
+                        <li class="flex justify-between items-center"><span>Standing Calf Raises</span><span class="font-semibold text-white">3x 12-15</span></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-8 bg-gray-800 p-6 rounded-lg text-center">
+                 <h4 class="font-bold text-lg text-white">Progressive Overload is Key!</h4>
+                 <p class="text-gray-400 text-sm mt-2">To keep growing, you must challenge your muscles. Gradually increase weight, reps, sets, or decrease rest time.</p>
+            </div>
+        </section>
+
+        <section id="recovery-cycle" class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-white">The Growth Cycle</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-2">Muscles aren't built in the gym; they're built during recovery. This cycle is non-negotiable for progress.</p>
+            </div>
+            <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl">
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-6">
+                    <div class="text-center">
+                        <p class="text-6xl mb-2">🏋️</p>
+                        <h4 class="text-xl font-bold text-white">Train</h4>
+                        <p class="text-sm text-gray-400">Intense Stimulus</p>
+                    </div>
+                    <div class="transform md:rotate-0 rotate-90 flow-arrow">&rarr;</div>
+                    <div class="text-center">
+                        <p class="text-6xl mb-2">🍽️</p>
+                        <h4 class="text-xl font-bold text-white">Eat</h4>
+                        <p class="text-sm text-gray-400">Caloric Surplus</p>
+                    </div>
+                    <div class="transform md:rotate-0 rotate-90 flow-arrow">&rarr;</div>
+                     <div class="text-center">
+                        <p class="text-6xl mb-2">😴</p>
+                        <h4 class="text-xl font-bold text-white">Recover</h4>
+                        <p class="text-sm text-gray-400">Repair & Rebuild</p>
+                    </div>
+                    <div class="transform md:rotate-0 rotate-90 flow-arrow">&rarr;</div>
+                    <div class="text-center">
+                        <p class="text-6xl mb-2">💪</p>
+                        <h4 class="text-xl font-bold text-white">Grow</h4>
+                        <p class="text-sm text-gray-400">Muscle Hypertrophy</p>
+                    </div>
+                </div>
+                 <div class="mt-10 border-t border-gray-700 pt-6">
+                     <h3 class="text-xl font-bold text-white text-center mb-6">Recovery Essentials</h3>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+                        <div class="bg-gray-900 p-4 rounded-lg">
+                            <p class="text-4xl font-black" style="color: #00A7B5;">7-9</p>
+                            <p class="font-semibold">Hours of Sleep</p>
+                            <p class="text-xs text-gray-500">For hormonal balance & repair</p>
+                        </div>
+                         <div class="bg-gray-900 p-4 rounded-lg">
+                            <p class="text-4xl font-black" style="color: #00A7B5;">~3L</p>
+                            <p class="font-semibold">Water Daily</p>
+                            <p class="text-xs text-gray-500">For performance & nutrient transport</p>
+                        </div>
+                         <div class="bg-gray-900 p-4 rounded-lg">
+                            <p class="text-4xl font-black" style="color: #00A7B5;">1+</p>
+                            <p class="font-semibold">Rest Days/Week</p>
+                            <p class="text-xs text-gray-500">Listen to your body, prevent overtraining</p>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 border-t border-gray-700 pt-8">
+            <p class="text-2xl font-black" style="color: #00B2CA;">Consistency is Your Superpower.</p>
+            <p class="text-gray-400 mt-2">Trust the process, be patient, and the results will follow.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const wrapLabel = (str, maxWidth) => {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 < maxWidth) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const chartColors = {
+            blue: '#00B2CA',
+            teal: '#00A7B5',
+            yellow: '#F2BE22',
+            orange: '#F2541B',
+            lightYellow: '#F2E63D'
+        };
+        
+        const macroData = {
+            labels: ['Carbohydrates', 'Protein', 'Fat'],
+            values: [59, 21, 20],
+            grams: [425, 150, 64]
+        };
+
+        const ctxMacroNutrient = document.getElementById('macroNutrientChart').getContext('2d');
+        new Chart(ctxMacroNutrient, {
+            type: 'doughnut',
+            data: {
+                labels: macroData.labels,
+                datasets: [{
+                    label: '% of Daily Calories',
+                    data: macroData.values,
+                    backgroundColor: [chartColors.blue, chartColors.yellow, chartColors.orange],
+                    borderColor: '#2d3748',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#e2e8f0',
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        const ctxMacroGrams = document.getElementById('macroGramsChart').getContext('2d');
+        new Chart(ctxMacroGrams, {
+            type: 'bar',
+            data: {
+                labels: macroData.labels.map(label => wrapLabel(label, 16)),
+                datasets: [{
+                    label: 'Grams per Day',
+                    data: macroData.grams,
+                    backgroundColor: [chartColors.blue, chartColors.yellow, chartColors.orange],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#cbd5e1'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#cbd5e1',
+                            font: { size: 14 }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
